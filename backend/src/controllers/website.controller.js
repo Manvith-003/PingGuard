@@ -35,6 +35,7 @@ exports.deleteWebsite = async (req, res, next) => {
 exports.pingWebsites = async (req, res, next) => {
   try {
     const sites = await Website.find();
+    const now = new Date();
 
     await Promise.all(
       sites.map(async (site) => {
@@ -42,7 +43,8 @@ exports.pingWebsites = async (req, res, next) => {
 
         site.status = result.status;
         site.responseTime = result.responseTime;
-        site.lastChecked = new Date();
+        site.lastChecked = now;
+        site.lastRunAt = now;
 
         if (result.status === "UP") site.uptimeCount++;
         else site.downtimeCount++;

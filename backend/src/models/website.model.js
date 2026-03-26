@@ -9,7 +9,10 @@ const websiteSchema = new mongoose.Schema({
   lastChecked: Date,
 
   uptimeCount: { type: Number, default: 0 },
-  downtimeCount: { type: Number, default: 0 }
+  downtimeCount: { type: Number, default: 0 },
+
+  checkInterval: { type: Number },
+  lastRunAt: { type: Date, default: null },
 
 }, { timestamps: true });
 

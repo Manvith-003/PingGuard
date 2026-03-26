@@ -4,18 +4,43 @@ const checkWebsite = async (url) => {
   const start = Date.now();
 
   try {
-    const res = await axios.get(url, { timeout: 5000 });
+    // 🔹 Use HEAD request (lightweight ping)
+    const res = await axios.head(url, {
+      timeout: 5000,
+      validateStatus: () => true // accept all status codes
+    });
 
-    return {
-      status: "UP",
-      responseTime: Date.now() - start
-    };
+    const responseTime = Date.now() - start;
+
+    // 🔹 Check status code
+    if (res.status >= 200 && res.status < 400) {
+      return {
+        status: "UP",
+        responseTime
+      };
+    } else {
+      return {
+        status: "DOWN",
+        responseTime
+      };
+    }
+
   } catch (err) {
-    return {
-      status: "DOWN",
-      responseTime: null
-    };
+    // 🔁 Retry once if failed
+    try {
+      const res = await axios.head(url, { timeout: 5000 });
+
+      return {
+        status: "UP",
+        responseTime: Date.now() - start
+      };
+    } catch {
+      return {
+        status: "DOWN",
+        responseTime: null
+      };
+    }
   }
 };
 
-module.exports = checkWebsite;
+module.exports = checkWebsite;  
