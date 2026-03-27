@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Website } from "@/types/website";
-import { getWebsites, deleteWebsite, pingWebsites } from "@/services/api";
+import { getWebsites, deleteWebsite, pingWebsites, setMonitoringInterval } from "@/services/api";
 import Link from "next/link";
 import { useToast } from "@/components/ui/Toast";
 import { 
@@ -53,11 +53,7 @@ export default function Home() {
   const setIntervalHandler = async (value: number) => {
     if (!value) return;
     try {
-      await fetch("http://localhost:5000/api/config/set-interval", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ interval: value })
-      });
+      await setMonitoringInterval(value);
       toast(`Monitoring interval updated to ${value}m`, "success");
     } catch (err) {
       toast("Failed to update interval", "error");

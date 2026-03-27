@@ -1,6 +1,7 @@
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 const WEBSITES_URL = `${BASE_URL}/websites`;
 const EMAIL_URL = `${BASE_URL}/email`;
+const CONFIG_URL = `${BASE_URL}/config`;
 
 export const getWebsites = async () => {
   const res = await fetch(WEBSITES_URL);
@@ -44,6 +45,17 @@ export const setEmailConfig = async (data: { emails: string[], intervalKey: stri
       "Content-Type": "application/json"
     },
     body: JSON.stringify(data)
+  });
+  return res.json();
+};
+
+export const setMonitoringInterval = async (interval: number) => {
+  const res = await fetch(`${CONFIG_URL}/set-interval`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ interval })
   });
   return res.json();
 };

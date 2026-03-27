@@ -37,7 +37,7 @@ const sendScheduledReport = async () => {
         const filePath = await generatePDF(sites);
         await sendEmailWithPDF(config.emails, filePath);
         fs.unlinkSync(filePath); // cleanup
-        console.log("report sent successfully");
+        console.log("Report sent successfully");
     } catch (err) {
         console.error("Failed to send scheduled report:", err.message);
     }
