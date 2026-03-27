@@ -22,12 +22,14 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Modal } from "@/components/ui/Modal";
+import { EmailConfigModal } from "@/components/EmailConfigModal";
 
 export default function Home() {
   const [websites, setWebsites] = useState<Website[]>([]);
   const [loading, setLoading] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleteName, setDeleteName] = useState("");
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const { toast } = useToast();
 
   const fetchData = async () => {
@@ -124,6 +126,14 @@ export default function Home() {
               </select>
             </div>
             
+            <button
+              onClick={() => setIsSettingsOpen(true)}
+              className="flex items-center justify-center p-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition-all group"
+              title="Notification Settings"
+            >
+              <Settings className="w-5 h-5 text-slate-400 group-hover:text-blue-400 transition-colors" />
+            </button>
+
             <Link
               href="/add"
               className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg font-medium transition-all hover:shadow-[0_0_20px_-5px_#2563eb]"
@@ -287,6 +297,12 @@ export default function Home() {
             </div>
           </div>
         </Modal>
+
+        {/* 🔹 Email Notification Settings Modal */}
+        <EmailConfigModal 
+          isOpen={isSettingsOpen} 
+          onClose={() => setIsSettingsOpen(false)} 
+        />
       </main>
     </div>
   );

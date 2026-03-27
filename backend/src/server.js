@@ -3,6 +3,7 @@ const cron = require("node-cron");
 const app = require("./app");
 const connectDB = require("./config/db");
 const { runMonitor } = require("./services/monitor.service");
+const sendScheduledReport = require("./services/report.service");
 
 connectDB();
 
@@ -15,6 +16,14 @@ app.listen(PORT, () => {
 cron.schedule("* * * * *", async () => {
   try {
     await runMonitor();
+  } catch (err) {
+    console.error("❌ Error in cron job:", err.message);
+  }
+});
+
+cron.schedule("* * * * *", async () => {
+  try {
+    await sendScheduledReport();
   } catch (err) {
     console.error("❌ Error in cron job:", err.message);
   }

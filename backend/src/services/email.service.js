@@ -8,13 +8,23 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-const sendEmail = async (subject, text) => {
+const sendEmailWithPDF = async (emails, filePath) => {
+  if (!process.env.EMAIL || !process.env.PASSWORD) {
+    throw new Error("SMTP credentials missing. Please set EMAIL and PASSWORD in your .env file.");
+  }
+
   await transporter.sendMail({
     from: process.env.EMAIL,
-    to: process.env.EMAIL,
-    subject,
-    text
+    to: emails.join(","),
+    subject: "Website Monitoring Report",
+    text: "Please find attached report.",
+    attachments: [
+      {
+        filename: "report.pdf",
+        path: filePath
+      }
+    ]
   });
 };
 
-module.exports = sendEmail;
+module.exports = sendEmailWithPDF;
