@@ -1,7 +1,7 @@
 const Website = require("../models/website.model");
 const EmailConfig = require("../models/emailConfig.model");
 const generatePDF = require("./pdf.service");
-const sendEmailWithPDF = require("./email.service");
+const { sendEmailWithPDF } = require("./email.service");
 const fs = require("fs");
 
 const sendScheduledReport = async () => {

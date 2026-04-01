@@ -19,8 +19,8 @@
     "express": "^5.2.1",
     "mongoose": "^9.3.2",
     "node-cron": "^4.2.1",
-    "nodemailer": "^8.0.3",
     "nodemon": "^3.1.14",
-    "pdfkit": "^0.18.0"
+    "pdfkit": "^0.18.0",
+    "resend": "^6.9.4"
   }
 }
